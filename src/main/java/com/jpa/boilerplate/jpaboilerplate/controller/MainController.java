@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -126,6 +127,21 @@ public class MainController {
     @DeleteMapping("/commentDelete/{commentNo}")
     public ResponseEntity<?> deleteComment(@PathVariable String commentNo) {
         boardComment.deleteById(Integer.parseInt(commentNo));
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PutMapping("/boardUpdate/{boardNo}")
+    public ResponseEntity<?> boardUpdate(@PathVariable String boardNo, @RequestBody BoardEntity boardParam) {
+        boardEntity = board.findById(Integer.parseInt(boardNo));
+        boardEntity.ifPresent(item -> {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format_time2 = format.format(System.currentTimeMillis());
+
+            item.setContent(boardParam.getContent());
+            item.setTitle(boardParam.getTitle());
+            item.setUpdatedTime(format_time2);
+            board.save(item);
+        });
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
