@@ -130,6 +130,13 @@ public class MainController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    /**
+     * 게시물을 수정하는 api
+     * 
+     * @param boardNo
+     * @param boardParam
+     * @return
+     */
     @PutMapping("/boardUpdate/{boardNo}")
     public ResponseEntity<?> boardUpdate(@PathVariable String boardNo, @RequestBody BoardEntity boardParam) {
         boardEntity = board.findById(Integer.parseInt(boardNo));
@@ -141,6 +148,29 @@ public class MainController {
             item.setTitle(boardParam.getTitle());
             item.setUpdatedTime(format_time2);
             board.save(item);
+        });
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    /**
+     * 댓글을 수정하는 api
+     * 
+     * @param boardNo
+     * @param boardParam
+     * @return
+     */
+    @PutMapping("/commentUpdate/{commentNo}")
+    public ResponseEntity<?> commentUpdate(@PathVariable String commentNo,
+            @RequestBody BoardCommentEntity commentParam) {
+        boardCommentEntity = boardComment.findById(Integer.parseInt(commentNo));
+        boardCommentEntity.ifPresent(item -> {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String format_time2 = format.format(System.currentTimeMillis());
+
+            item.setComment(commentParam.getComment());
+            item.setName(commentParam.getName());
+            item.setUpdatedTime(format_time2);
+            boardComment.save(item);
         });
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
