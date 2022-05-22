@@ -4,6 +4,39 @@
 
 # configuration 
 
+초기 sql script 
+
+```sql
+CREATE TABLE sys.board_comment (
+comment_no int (11) auto_increment primary key ,
+board_no int (11),
+name varchar(200),
+comment varchar(600),
+created_time dateTime,
+delete_time dateTime,
+updated_time dateTime
+ 
+) 
+
+
+
+CREATE TABLE sys.board (
+board_no int (11) auto_increment primary key ,
+name varchar(200),
+title varchar(200),
+content varchar(600),
+created_time dateTime,
+delete_time dateTime,
+updated_time dateTime
+ 
+) 
+
+
+```
+
+
+
+
 1) dependency 
 ```xml 
 <dependencies>
