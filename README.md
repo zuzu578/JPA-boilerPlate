@@ -1,5 +1,46 @@
 # JPA-boilerPlate
 
+# spring legacy 에서 hibernate , jpa 를 사용할 경우
+
+프로젝트 우클릭 → configure → Convert to JPA Project' 을 통해 JPA 프로젝트로 바꿔준다.
+![test111](https://user-images.githubusercontent.com/69393030/169774227-3af20ce8-30ad-4378-9b65-f42e71c4a837.png)
+
+그런다음 위를 보면 persistence.xml 파일이 생성될텐데. 거기에 hibernate db connection 정보 등을 작성한다.
+
+
+# persistence.xml 
+```xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+   <persistence-unit name="EMS">
+
+       <class>egovframework.com.bo.cmm.entity.BoMenuManageEntity</class>
+
+ 
+
+        <properties>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.CUBRIDDialect"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+				<property name="hibernate.connection.url" value="jdbc:CUBRID:1.214.219.236:33000:EMS:::"/> 
+				<property name="hibernate.connection.driver_class" value="cubrid.jdbc.driver.CUBRIDDriver"/>
+			   <property name="hibernate.connection.username" value="emsuser"/>
+			   <property name="hibernate.connection.password" value="ems527useR4"/>
+
+
+        </properties>   
+
+   </persistence-unit>
+
+</persistence>
+
+
+```
+
 # spring boot 와 JPA 를 사용한 보일러 플레이트.
 
 # configuration 
