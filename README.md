@@ -1,6 +1,6 @@
 # JPA-boilerPlate
-
-# spring legacy 에서 hibernate , jpa 를 사용할 경우
+ 
+# spring legacy 에서 hibernate , jpa 를 사용할 경우 환경설정 
 
 프로젝트 우클릭 → configure → Convert to JPA Project' 을 통해 JPA 프로젝트로 바꿔준다.
 ![test111](https://user-images.githubusercontent.com/69393030/169774227-3af20ce8-30ad-4378-9b65-f42e71c4a837.png)
@@ -33,7 +33,6 @@
 
 
         </properties>   
-ㅅㄷㅅㄷ
    </persistence-unit>
 
 </persistence>
