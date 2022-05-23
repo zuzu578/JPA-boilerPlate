@@ -33,13 +33,55 @@
 
 
         </properties>   
-
+ㅅㄷㅅㄷ
    </persistence-unit>
 
 </persistence>
 
 
 ```
+
+그런다음 jpa config파일을 생성한다 . 
+![스크린샷tetestsetests-11](https://user-images.githubusercontent.com/69393030/169774812-feda1cd2-d13d-469c-80c7-1a43ab368bf7.png)
+
+그런다음 위와같이 작성해준다.
+```java
+package egovframework.com.bo.cmm.repository;
+
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+
+@Configuration
+@EnableJpaRepositories(basePackages = {"egovframework.com.bo.cmm.repository"})
+public class JpaConfig {
+	
+	 @Bean
+	 public LocalEntityManagerFactoryBean entityManagerFactory() {
+	        LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
+	        factoryBean.setPersistenceUnitName("EMS"); // 위에서 persistence.xml 파일에서 정한 persistence-unit name = "EMS" 그대로 적어준다.
+	          
+	        return factoryBean;
+	 }
+	      
+	    @Bean
+	    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+	        JpaTransactionManager transactionManager = new JpaTransactionManager();
+	        transactionManager.setEntityManagerFactory(entityManagerFactory);
+	          
+	        return transactionManager;
+	  } 
+	
+
+}
+
+
+```
+
 
 # spring boot 와 JPA 를 사용한 보일러 플레이트.
 
