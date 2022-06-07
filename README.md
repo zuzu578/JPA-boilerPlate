@@ -374,3 +374,14 @@ public class BoardEntity {
 select * from board b1 left join boardComment b2 on b1.boardNo = b2.boardNo;
 
 ```
+
+
+# jwt 
+
+JWT 란 json web token 은 웹표준 으로서 일반적으로 클라이언트 - 서버 - 서비스 - 서비스 통신시 권한 인가를 위해 사용하는 토큰이다.
+
+# jwt 구조 
+
+1) header : 토큰 타입 , 해시 알고리즘 저장 
+2) payload : 정보 값 
+3) signature : 위변조 방지값 
