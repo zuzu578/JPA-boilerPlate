@@ -2,7 +2,7 @@ package com.jpa.boilerplate.jpaboilerplate.utils;
 
 import java.util.HashMap;
 
-import com.jpa.boilerplate.jpaboilerplate.entity.BoardEntity;
+import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardEntity;
 
 import org.apache.commons.lang3.StringUtils;
 

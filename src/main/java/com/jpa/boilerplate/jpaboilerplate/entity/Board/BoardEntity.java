@@ -1,4 +1,4 @@
-package com.jpa.boilerplate.jpaboilerplate.entity;
+package com.jpa.boilerplate.jpaboilerplate.entity.Board;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

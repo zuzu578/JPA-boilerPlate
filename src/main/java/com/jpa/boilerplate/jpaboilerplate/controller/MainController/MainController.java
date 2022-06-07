@@ -1,4 +1,4 @@
-package com.jpa.boilerplate.jpaboilerplate.controller;
+package com.jpa.boilerplate.jpaboilerplate.controller.MainController;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jpa.boilerplate.jpaboilerplate.entity.BoardCommentEntity;
-import com.jpa.boilerplate.jpaboilerplate.entity.BoardEntity;
-import com.jpa.boilerplate.jpaboilerplate.repository.BoardCommentRepository;
-import com.jpa.boilerplate.jpaboilerplate.repository.BoardRepository;
+import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardCommentEntity;
+import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardEntity;
+import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardCommentRepository;
+import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardRepository;
 import com.jpa.boilerplate.jpaboilerplate.utils.BoardCommentNullCheckMessage;
 import com.jpa.boilerplate.jpaboilerplate.utils.BoardNullCheckMessage;
 
