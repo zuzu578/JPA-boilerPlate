@@ -10,8 +10,8 @@ import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardCommentEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardCommentRepository;
 import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardRepository;
-import com.jpa.boilerplate.jpaboilerplate.utils.BoardCommentNullCheckMessage;
-import com.jpa.boilerplate.jpaboilerplate.utils.BoardNullCheckMessage;
+import com.jpa.boilerplate.jpaboilerplate.utils.MessageUtils.BoardCommentNullCheckMessage;
+import com.jpa.boilerplate.jpaboilerplate.utils.MessageUtils.BoardNullCheckMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

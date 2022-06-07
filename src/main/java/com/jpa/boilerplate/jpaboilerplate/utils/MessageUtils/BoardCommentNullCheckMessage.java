@@ -1,4 +1,4 @@
-package com.jpa.boilerplate.jpaboilerplate.utils;
+package com.jpa.boilerplate.jpaboilerplate.utils.MessageUtils;
 
 import java.util.HashMap;
 
