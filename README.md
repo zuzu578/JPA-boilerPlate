@@ -385,3 +385,102 @@ JWT 란 json web token 은 웹표준 으로서 일반적으로 클라이언트 -
 1) header : 토큰 타입 , 해시 알고리즘 저장 
 2) payload : 정보 값 
 3) signature : 위변조 방지값 
+
+
+# criteria 질의문 
+criteria 란 객체지향 쿼리 빌더 로써 질의문을 java method 로 작성함으로써 sql 을 동적으로 생성할수있다.
+
+1) 사용법 
+``` java
+@PersistenceContext
+
+EntityManager entityManager;
+
+```
+를 추가해준다.
+
+
+``` java
+public List<Board> testGetList(final int startRow, final int pageSize)
+
+{
+
+	// CriteriaBuilder 인스턴스를 작성한다.
+
+	CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+	// CriteriaQuery 인스턴스를 생성한다. 
+
+	CriteriaQuery<Board> criteriaQuery = criteriaBuilder.createQuery(Board.class);
+
+
+
+	// Root는 영속적 엔티티를 표시하는 쿼리 표현식이다. SQL의 FROM 과 유사함
+
+	Root<Board> root = criteriaQuery.from(Board.class);
+
+
+
+	// SQL의 WHERE절이다. 조건부는 CriteriaBuilder에 의해 생성
+
+	Predicate restrictions = criteriaBuilder.equal(root.get("boardTitle"), "jpa");
+
+	criteriaQuery.where(restrictions);
+
+
+
+	// ORDER BY절. CriteriaQuery로 생성
+
+	criteriaQuery.orderBy(criteriaBuilder.desc(root.get("boardIdx")));
+
+
+
+	//  TypedQuery는 실행 결과를 리턴하는 타입이다.
+
+	TypedQuery<Board> boardListQuery = entityManager.createQuery(criteriaQuery).setFirstResult(startRow).setMaxResults(pageSize);
+
+	List<Board> boardList = boardListQuery.getResultList();
+
+
+
+	return boardList;
+
+}
+
+
+
+```
+
+# criteria 질의문에서 where 조건 and 여러개 추가하기.
+
+해당 코드는 동적으로 parameter 가 넘어올 경우 and 조건을 추가해주는 코드이다.  and 조건을 추가할때는 criteriaBuilder.and() 를 사용하면 되고 or 조건은 criteriaBuilder.or() 
+를 사용한다. 
+```java
+
+				  Predicate condition1 = null ;
+				  Predicate condition2 = null ; 
+				  Predicate defaultCondition = criteriaBuilder.equal(root.get("delYn"), 'N');
+				  Predicate orderByCondition = criteriaBuilder.eq
+				  
+				  Predicate goodsConditions = null;
+				  if(searchCondition.get("gds_nm") != null) {
+					  condition1 = criteriaBuilder.equal(root.get("gds_nm"), searchCondition.get("gds_nm").toString());  
+					  
+				  }
+				  if(searchCondition.get("reg_ymd")!= null) {
+					  condition2 = criteriaBuilder.equal(root.get("reg_ymd"), searchCondition.get("reg_ymd").toString());
+				  }
+				  if(condition1 != null && condition2 != null ) {					  
+					  goodsConditions = criteriaBuilder.and(condition1, condition2,defaultCondition);
+					  criteriaQuery.where(goodsConditions);
+				  }else if(condition1 != null) {
+					  goodsConditions = criteriaBuilder.and(condition1, defaultCondition);
+				  } else if (condition2 != null) {
+					  goodsConditions = criteriaBuilder.and(condition2, defaultCondition);
+				  }
+				  criteriaQuery.orderBy(criteriaBuilder.desc(root.get("reg_ymd")));
+				  result = entityManager.createQuery(criteriaQuery).getResultList();
+		    	 
+
+
+```
