@@ -484,3 +484,8 @@ public List<Board> testGetList(final int startRow, final int pageSize)
 
 
 ```
+# criteria 에서 paging 하는법 
+```java
+TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery).setFirstResult(Integer.parseInt(pageNum)).setMaxResults(fetchSize);
+```
+끝 
