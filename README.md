@@ -533,3 +533,14 @@ querydsl 사용 방법은 다음과같다.
 </plugin>
 
 ```
+
+그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다.
+
+# vs code 에서 qclass 생성안되는경우
+확장프로그램에서 
+test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 
+# queryDsl 사용 
+
+<img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
+
+
