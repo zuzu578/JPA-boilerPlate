@@ -44,10 +44,10 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.CUBRIDDialect"/>
 
             <property name="hibernate.show_sql" value="true"/>
-				<property name="hibernate.connection.url" value="jdbc:CUBRID:1.214.219.236:33000:EMS:::"/> 
+				<property name="hibernate.connection.url" value=""/> 
 				<property name="hibernate.connection.driver_class" value="cubrid.jdbc.driver.CUBRIDDriver"/>
-			   <property name="hibernate.connection.username" value="emsuser"/>
-			   <property name="hibernate.connection.password" value="ems527useR4"/>
+			   <property name="hibernate.connection.username" value=""/>
+			   <property name="hibernate.connection.password" value=""/>
 
 
         </properties>   
