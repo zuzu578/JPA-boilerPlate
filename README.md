@@ -489,3 +489,58 @@ public List<Board> testGetList(final int startRow, final int pageSize)
 TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery).setFirstResult(Integer.parseInt(pageNum)).setMaxResults(fetchSize);
 ```
 끝 
+
+
+# queryDsl 방식을 사용하기 
+
+querydsl 사용 방법은 다음과같다.
+
+우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
+
+```xml
+<dependency>
+    <groupId>com.mysema.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>3.6.3</version>
+</dependency>
+
+<dependency>
+    <groupId>com.mysema.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>3.6.3</version>
+</dependency>
+
+
+```
+ 
+``` xml
+
+	<plugin>
+    <groupId>com.mysema.maven</groupId>
+    <artifactId>apt-maven-plugin</artifactId>
+    <version>1.1.3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>process</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>target/generated-sources/java</outputDirectory>
+                <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+
+```
+
+그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다.
+
+# vs code 에서 qclass 생성안되는경우
+확장프로그램에서 
+test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 
+# queryDsl 사용 
+
+<img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
+
+
