@@ -512,6 +512,7 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 <img width="769" alt="스크린샷 2022-06-17 오전 12 06 33" src="https://user-images.githubusercontent.com/69393030/174101036-de45e3c3-5bc7-4f92-9380-97a5feb1f45c.png">
 
 criteria 에 비해 가독성도 좋고 , 깔끔하게 작성할수있어서 좋다. 대부분의 사람들 글을 보면 jpa 에 querydsl 조합으로 가는듯하다. 
+쿼리 dsl 을 쓰려면 Q class 를 생성해야하는데 , 플러그인으로 자동생성한뒤 Q class를 이용하여 작성할수있다.
 querydsl 사용 방법은 다음과같다.
 
 우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
