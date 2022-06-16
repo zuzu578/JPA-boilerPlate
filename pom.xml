@@ -21,13 +21,13 @@
 <dependency>
     <groupId>com.mysema.querydsl</groupId>
     <artifactId>querydsl-jpa</artifactId>
-    <version>3.6.3</version>
+    <version>4.0.2</version>
 </dependency>
 
 <dependency>
     <groupId>com.mysema.querydsl</groupId>
     <artifactId>querydsl-apt</artifactId>
-    <version>3.6.3</version>
+    <version>4.0.2</version>
 </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
