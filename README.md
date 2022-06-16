@@ -489,3 +489,47 @@ public List<Board> testGetList(final int startRow, final int pageSize)
 TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery).setFirstResult(Integer.parseInt(pageNum)).setMaxResults(fetchSize);
 ```
 끝 
+
+
+# queryDsl 방식을 사용하기 
+
+querydsl 사용 방법은 다음과같다.
+
+우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
+
+```xml
+<dependency>
+    <groupId>com.mysema.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>3.6.3</version>
+</dependency>
+
+<dependency>
+    <groupId>com.mysema.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>3.6.3</version>
+</dependency>
+
+
+```
+ 
+``` xml
+
+	<plugin>
+    <groupId>com.mysema.maven</groupId>
+    <artifactId>apt-maven-plugin</artifactId>
+    <version>1.1.3</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>process</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>target/generated-sources/java</outputDirectory>
+                <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+
+```
