@@ -544,3 +544,24 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
 
+
+# queryFactory 를 사용하여 querydsl 사용하기 
+``` xml
+	<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>4.0.2</version>
+</dependency>
+
+<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>4.0.2</version>
+</dependency>
+
+```
+
+를 추가해준다. 
+
+
+             
