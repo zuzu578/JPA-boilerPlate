@@ -518,70 +518,147 @@ querydsl 사용 방법은 다음과같다.
 우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
 
 ```xml
+
 <dependency>
-    <groupId>com.mysema.querydsl</groupId>
-    <artifactId>querydsl-jpa</artifactId>
-    <version>3.6.3</version>
+<groupId>com.querydsl</groupId>
+<artifactId>querydsl-apt</artifactId>
+<version>${querydsl.version}</version>
+<scope>provided</scope>
 </dependency>
 
 <dependency>
-    <groupId>com.mysema.querydsl</groupId>
-    <artifactId>querydsl-apt</artifactId>
-    <version>3.6.3</version>
+<groupId>com.querydsl</groupId>
+<artifactId>querydsl-jpa</artifactId>
+<version>${querydsl.version}</version>
 </dependency>
+
+
 
 
 ```
- 
+첫번째 querydsl-apt 는 q class 자동생성을 위한 의존성이며
+
+두번째 querydsl-jpa 는 querydsl 을 jpa 에서 사용할수있도록 해주는 의존성이다. 
+
+이거 의존성도 잘찾아서 해야한다 필자는 블로그 에서 복붙해서 작동안되서 멘탈이 아스팔트에 갈렸는데 공식문서에있는 의존성을넣어주니 해결되었다. 이럴땐 공식문서를 참조하자 
 ``` xml
 
-	<plugin>
-    <groupId>com.mysema.maven</groupId>
-    <artifactId>apt-maven-plugin</artifactId>
-    <version>1.1.3</version>
-    <executions>
-        <execution>
+<!-- querydsl plugin -->
+<plugin>
+        <groupId>com.mysema.maven</groupId>
+        <artifactId>apt-maven-plugin</artifactId>
+        <version>1.1.3</version>
+        <executions>
+          <execution>
             <goals>
-                <goal>process</goal>
+              <goal>process</goal>
             </goals>
             <configuration>
-                <outputDirectory>target/generated-sources/java</outputDirectory>
-                <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+              <outputDirectory>target/generated-sources/java</outputDirectory>
+              <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
             </configuration>
-        </execution>
-    </executions>
-</plugin>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
 
 ```
 
-그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다.
+그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다. q class 는 엔티티를 복제하여 querydsl 에서 q class 를 통해 사용할수 있도록한다.
+
 
 # vs code 에서 qclass 생성안되는경우
 확장프로그램에서 
-test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 
-# queryDsl 사용 
+test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 이거때매 멘탈 갈렸다 
+# queryDsl 사용 (JpaQuery임 쿼리팩토리아님) 
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
 
 
 # queryFactory 를 사용하여 querydsl 사용하기 
-``` xml
-	<dependency>
-    <groupId>com.querydsl</groupId>
-    <artifactId>querydsl-jpa</artifactId>
-    <version>4.0.2</version>
-</dependency>
 
-<dependency>
-    <groupId>com.querydsl</groupId>
-    <artifactId>querydsl-apt</artifactId>
-    <version>4.0.2</version>
-</dependency>
+필자는 criteria query , jpaquery, jpaqueryFactory 3개 간단하게 써봤지만 jpaqueryFactory 를 쓰는 애들도 많은거같고 대부분 쿼리팩토리로 하는거같다 걍 이거써라
+
+# 이럴거면 왜 criteria , jpa query를 왜썻냐 지금까지 
+
+![2gsjgna1uruvUuS7ndh9YqVwYGPLVszbFLwwpAYXZ1rkyz7vKAbhJvHdPRzCvhGfPWQdhkcqKLhnajnHFpGdgkDq3R1XmTFaFxUfKbVyyA3iDi1Fzv](https://user-images.githubusercontent.com/69393030/174218704-523a9fd2-a53d-41c2-9427-20f9e4affa8c.png)
+
+사실 jpa 에서 제공해주는 jparepository만 쓰다가 where 조건을 추가해줘야겠다해서 해주니까 뭔 분기별로 메서드를 구현해야되서 이건좀...
+
+하다가 criteria 를 찾게되었고 마침 1년전에 쌩신입때 하이버네이트 criteria 를 잠깐 유지보수한적이 있어서 해봤다가 와 이건 ... 가독성이 쓰레기다.. 싶어서 찾아보다가 queryDsl 보고 .. 
+querydsl 에서 jpaquery 쓰다가 다들 jpaqueryfactory 쓰고있었고.. 응응.. 나만 진심이었지..
+
+
+
+# queryDsl queryfactory 에서 연관관계 매핑 안된 엔티티를 join 하는법 
+
+이렇게 하기까지 많은 시행착오가 있었다. 애초에 의존성만 잘받았으면 이러지도 않았다. 
+
+조인할때 컬럼 2개이상 셀렉트하게 될텐데
+
+이떄 tuple 로 받아야한다. 안받으면 오류남 근데 다른사람은 잘되는거 같던데 또 나만이러지.. 나만진심이지 진짜 감정쓰레기통이다 나만 당해버렸다 나라서 당했다..
+
+# 조인 
+```java
+QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        List<Tuple> result = queryFactory
+                .select(board, file)
+                .from(board)
+                .join(file)
+                .on(board.fileNo.eq(file.fileNo))
+                .fetch();
+
+        for (Tuple tuple : result) {
+            System.out.println("test!!!====>" + tuple.get(board).getBoardNo());
+            System.out.println("test =====>" + tuple.get(file).getFileName());
+        }
+        return new ResponseEntity<>(
+                "",
+                HttpStatus.OK);
+    }
+
+
 
 ```
 
-를 추가해준다. 
+# orderby , offset , limit , where condition 
+``` java
+
+@GetMapping("/test2")
+    public ResponseEntity<?> test2() {
+
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        return new ResponseEntity<>(
+                queryFactory
+                        .select(board)
+                        .from(board)
+                        .where(board.userName.eq("주환"))
+                        .orderBy(board.createdTime.asc())
+                        .offset(0)
+                        .limit(10)
+                        .fetch(),
+                HttpStatus.OK);
+    }
 
 
-             
+
+```
+
+# 정말입이 딱벌어집니다 
+솔직히 너무힘들었습니다. 새벽 4시까지 삽질하고 삽질하고.. 검색도 해보고 .. 뭔 인도인이 하이버네이트 설명하는 유튜브 영상도 보고 .. 하나도 안들리는 콩글리시 인도인 영어 주먹물고 오열하면서 보면서.. 따라해보고 그랬지만 결국은 의존성주입을 잘못해줬기때문에 일어난 대참사라고 생각합니다.  이걸 현업에서 쓸생각에 뒷목잡고 쓰러질것같습니다. 공부량을 늘려서라도 하이버네이트 쓰도록해야겠습니다.
+
+   ![img](https://user-images.githubusercontent.com/69393030/174218501-351f840f-d070-4d9a-ab72-c219017acf9b.jpg)
+
