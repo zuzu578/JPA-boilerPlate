@@ -587,6 +587,64 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 필자는 criteria query , jpaquery, jpaqueryFactory 3개 간단하게 써봤지만 jpaqueryFactory 를 쓰는 애들도 많은거같고 대부분 쿼리팩토리로 하는거같다 걍 이거써라
 
 
+# queryDsl queryfactory 에서 연관관계 매핑 안된 엔티티를 join 하는법 
 
+이렇게 하기까지 많은 시행착오가 있었다. 애초에 의존성만 잘받았으면 이러지도 않았다. 
+
+조인할때 컬럼 2개이상 셀렉트하게 될텐데
+
+이떄 tuple 로 받아야한다. 안받으면 오류남 근데 다른사람은 잘되는거 같던데 또 나만이러지.. 나만진심이지 진짜 감정쓰레기통이다 나만 당해버렸다 나라서 당했다..
+
+# 조인 
+```java
+QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        List<Tuple> result = queryFactory
+                .select(board, file)
+                .from(board)
+                .join(file)
+                .on(board.fileNo.eq(file.fileNo))
+                .fetch();
+
+        for (Tuple tuple : result) {
+            System.out.println("test!!!====>" + tuple.get(board).getBoardNo());
+            System.out.println("test =====>" + tuple.get(file).getFileName());
+        }
+        return new ResponseEntity<>(
+                "",
+                HttpStatus.OK);
+    }
+
+
+
+```
+
+# orderby , offset , limit , where condition 
+``` java
+
+@GetMapping("/test2")
+    public ResponseEntity<?> test2() {
+
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        return new ResponseEntity<>(
+                queryFactory
+                        .select(board)
+                        .from(board)
+                        .where(board.userName.eq("주환"))
+                        .orderBy(board.createdTime.asc())
+                        .offset(0)
+                        .limit(10)
+                        .fetch(),
+                HttpStatus.OK);
+    }
+
+
+
+```
 
              
