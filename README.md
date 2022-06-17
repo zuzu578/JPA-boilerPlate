@@ -1,6 +1,24 @@
 # JPA-boilerPlate
+
+<img width="764" alt="스크린샷 2022-06-16 오후 11 53 48" src="https://user-images.githubusercontent.com/69393030/174098234-11415393-9f1d-4d89-a884-1f5a340163a7.png">
+<img width="769" alt="스크린샷 2022-06-17 오전 12 04 18" src="https://user-images.githubusercontent.com/69393030/174100556-2b260955-972d-404e-8436-3a417c41c3ad.png">
+
+<img width="768" alt="스크린샷 2022-06-16 오후 11 55 06" src="https://user-images.githubusercontent.com/69393030/174098547-1d028c97-cc7a-4892-9477-8bbbc74bd917.png">
+<img width="741" alt="스크린샷 2022-06-16 오후 11 57 29" src="https://user-images.githubusercontent.com/69393030/174099068-d3b7d492-b304-411b-8117-0fc7149601cf.png">
+<img width="741" alt="스크린샷 2022-06-16 오후 11 58 44" src="https://user-images.githubusercontent.com/69393030/174099397-439a612d-4201-4b08-85e5-b9d717c0b472.png">
+
+# 필자는 하이버네이트 , jpa 세팅하다가 머리털이 몇개 빠진것같습니다.
+<img width="741" alt="스크린샷 2022-06-16 오후 11 59 20" src="https://user-images.githubusercontent.com/69393030/174099506-1c72c072-b3eb-4052-914d-6a07e1909e0b.png">
+
  
 # spring legacy 에서 hibernate , jpa 를 사용할 경우 환경설정 
+<img width="741" alt="스크린샷 2022-06-17 오전 12 00 29" src="https://user-images.githubusercontent.com/69393030/174099775-0fd4a3e2-65e3-45fb-be69-1e39f8305ce1.png">
+<img width="762" alt="스크린샷 2022-06-17 오전 12 02 36" src="https://user-images.githubusercontent.com/69393030/174100220-56e3b6d2-7608-4263-929d-cab6ed6807d2.png">
+
+스프링 레거시나 전자정부에서 하이버네이트와 마이바티스를 같이 쓸경우이다.. 물론 전자정부에서 하이버네이트를 쓴다면..(그럴일은 적겠지만..) 필자가 전자정부에다 삽질을 하며 고생한끝에 두개다 설정했다.
+이게 그렇게 어려운것은 아닌데 이상하게 설정이 꼬여서 너무 힘들었다. 
+
+<img width="768" alt="스크린샷 2022-06-16 오후 11 55 38" src="https://user-images.githubusercontent.com/69393030/174098671-d1dcd0c3-b8ad-452b-9394-08e6e11137dd.png">
 
 프로젝트 우클릭 → configure → Convert to JPA Project' 을 통해 JPA 프로젝트로 바꿔준다.
 ![test111](https://user-images.githubusercontent.com/69393030/169774227-3af20ce8-30ad-4378-9b65-f42e71c4a837.png)
@@ -26,10 +44,10 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.CUBRIDDialect"/>
 
             <property name="hibernate.show_sql" value="true"/>
-				<property name="hibernate.connection.url" value="jdbc:CUBRID:1.214.219.236:33000:EMS:::"/> 
+				<property name="hibernate.connection.url" value=""/> 
 				<property name="hibernate.connection.driver_class" value="cubrid.jdbc.driver.CUBRIDDriver"/>
-			   <property name="hibernate.connection.username" value="emsuser"/>
-			   <property name="hibernate.connection.password" value="ems527useR4"/>
+			   <property name="hibernate.connection.username" value=""/>
+			   <property name="hibernate.connection.password" value=""/>
 
 
         </properties>   
@@ -376,19 +394,13 @@ select * from board b1 left join boardComment b2 on b1.boardNo = b2.boardNo;
 ```
 
 
-# jwt 
-
-JWT 란 json web token 은 웹표준 으로서 일반적으로 클라이언트 - 서버 - 서비스 - 서비스 통신시 권한 인가를 위해 사용하는 토큰이다.
-
-# jwt 구조 
-
-1) header : 토큰 타입 , 해시 알고리즘 저장 
-2) payload : 정보 값 
-3) signature : 위변조 방지값 
-
 
 # criteria 질의문 
-criteria 란 객체지향 쿼리 빌더 로써 질의문을 java method 로 작성함으로써 sql 을 동적으로 생성할수있다.
+
+<img width="768" alt="스크린샷 2022-06-16 오후 11 55 06" src="https://user-images.githubusercontent.com/69393030/174098547-1d028c97-cc7a-4892-9477-8bbbc74bd917.png">
+
+criteria 란 객체지향 쿼리 빌더 로써 질의문을 java method 로 작성함으로써 sql 을 동적으로 생성할수있다. 가독성이 매우 안좋다.. 하루빨리 querydsl 로 바꿔서 이를 보완하도록하자..
+
 
 1) 사용법 
 ``` java
@@ -491,8 +503,16 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 끝 
 
 
-# queryDsl 방식을 사용하기 
 
+# queryDsl 방식을 사용하기 
+<img width="769" alt="스크린샷 2022-06-17 오전 12 05 24" src="https://user-images.githubusercontent.com/69393030/174100782-16038f20-d505-45fc-b4c6-b5de3bc4d837.png">
+
+<img width="769" alt="스크린샷 2022-06-17 오전 12 05 57" src="https://user-images.githubusercontent.com/69393030/174100911-0b27fab9-acaa-48ca-85c5-348824066406.png">
+
+<img width="769" alt="스크린샷 2022-06-17 오전 12 06 33" src="https://user-images.githubusercontent.com/69393030/174101036-de45e3c3-5bc7-4f92-9380-97a5feb1f45c.png">
+
+criteria 에 비해 가독성도 좋고 , 깔끔하게 작성할수있어서 좋다. 대부분의 사람들 글을 보면 jpa 에 querydsl 조합으로 가는듯하다. 
+쿼리 dsl 을 쓰려면 Q class 를 생성해야하는데 , 플러그인으로 자동생성한뒤 Q class를 이용하여 작성할수있다.
 querydsl 사용 방법은 다음과같다.
 
 우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
@@ -544,3 +564,24 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
 
+
+# queryFactory 를 사용하여 querydsl 사용하기 
+``` xml
+	<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+    <version>4.0.2</version>
+</dependency>
+
+<dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+    <version>4.0.2</version>
+</dependency>
+
+```
+
+를 추가해준다. 
+
+
+             
