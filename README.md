@@ -518,47 +518,64 @@ querydsl 사용 방법은 다음과같다.
 우선 querydsl dependency 를 받고 , 플러그인을 받는다 플러그인은 Q 클래스를 자동으로 생성하도록 도와주는 플러그인이다.
 
 ```xml
+
 <dependency>
-    <groupId>com.mysema.querydsl</groupId>
-    <artifactId>querydsl-jpa</artifactId>
-    <version>3.6.3</version>
+<groupId>com.querydsl</groupId>
+<artifactId>querydsl-apt</artifactId>
+<version>${querydsl.version}</version>
+<scope>provided</scope>
 </dependency>
 
 <dependency>
-    <groupId>com.mysema.querydsl</groupId>
-    <artifactId>querydsl-apt</artifactId>
-    <version>3.6.3</version>
+<groupId>com.querydsl</groupId>
+<artifactId>querydsl-jpa</artifactId>
+<version>${querydsl.version}</version>
 </dependency>
+
+
 
 
 ```
- 
+첫번째 querydsl-apt 는 q class 자동생성을 위한 의존성이며
+
+두번째 querydsl-jpa 는 querydsl 을 jpa 에서 사용할수있도록 해주는 의존성이다. 
+
+이거 의존성도 잘찾아서 해야한다 필자는 블로그 에서 복붙해서 작동안되서 멘탈이 아스팔트에 갈렸는데 공식문서에있는 의존성을넣어주니 해결되었다. 이럴땐 공식문서를 참조하자 
 ``` xml
 
-	<plugin>
-    <groupId>com.mysema.maven</groupId>
-    <artifactId>apt-maven-plugin</artifactId>
-    <version>1.1.3</version>
-    <executions>
-        <execution>
+<!-- querydsl plugin -->
+<plugin>
+        <groupId>com.mysema.maven</groupId>
+        <artifactId>apt-maven-plugin</artifactId>
+        <version>1.1.3</version>
+        <executions>
+          <execution>
             <goals>
-                <goal>process</goal>
+              <goal>process</goal>
             </goals>
             <configuration>
-                <outputDirectory>target/generated-sources/java</outputDirectory>
-                <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+              <outputDirectory>target/generated-sources/java</outputDirectory>
+              <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
             </configuration>
-        </execution>
-    </executions>
-</plugin>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>${querydsl.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
 
 ```
 
-그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다.
+그런다음 mvn compile 을 하면 target 밑에 generated-source 에 q class 가 생성된다. q class 는 엔티티를 복제하여 querydsl 에서 q class 를 통해 사용할수 있도록한다.
+
 
 # vs code 에서 qclass 생성안되는경우
 확장프로그램에서 
-test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 
+test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 이거때매 멘탈 갈렸다 
 # queryDsl 사용 
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
@@ -566,22 +583,10 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 
 
 # queryFactory 를 사용하여 querydsl 사용하기 
-``` xml
-	<dependency>
-    <groupId>com.querydsl</groupId>
-    <artifactId>querydsl-jpa</artifactId>
-    <version>4.0.2</version>
-</dependency>
 
-<dependency>
-    <groupId>com.querydsl</groupId>
-    <artifactId>querydsl-apt</artifactId>
-    <version>4.0.2</version>
-</dependency>
+필자는 criteria query , jpaquery, jpaqueryFactory 3개 간단하게 써봤지만 jpaqueryFactory 를 쓰는 애들도 많은거같고 대부분 쿼리팩토리로 하는거같다 걍 이거써라
 
-```
 
-를 추가해준다. 
 
 
              
