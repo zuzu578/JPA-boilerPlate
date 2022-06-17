@@ -586,6 +586,16 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 
 필자는 criteria query , jpaquery, jpaqueryFactory 3개 간단하게 써봤지만 jpaqueryFactory 를 쓰는 애들도 많은거같고 대부분 쿼리팩토리로 하는거같다 걍 이거써라
 
+# 이럴거면 왜 criteria , jpa query를 왜썻냐 지금까지 
+
+![2gsjgna1uruvUuS7ndh9YqVwYGPLVszbFLwwpAYXZ1rkyz7vKAbhJvHdPRzCvhGfPWQdhkcqKLhnajnHFpGdgkDq3R1XmTFaFxUfKbVyyA3iDi1Fzv](https://user-images.githubusercontent.com/69393030/174218704-523a9fd2-a53d-41c2-9427-20f9e4affa8c.png)
+
+사실 jpa 에서 제공해주는 jparepository만 쓰다가 where 조건을 추가해줘야겠다해서 해주니까 뭔 분기별로 메서드를 구현해야되서 이건좀...
+
+하다가 criteria 를 찾게되었고 마침 1년전에 쌩신입때 하이버네이트 criteria 를 잠깐 유지보수한적이 있어서 해봤다가 와 이건 ... 가독성이 쓰레기다.. 싶어서 찾아보다가 queryDsl 보고 .. 
+querydsl 에서 jpaquery 쓰다가 다들 jpaqueryfactory 쓰고있었고.. 응응.. 나만 진심이었지..
+
+
 
 # queryDsl queryfactory 에서 연관관계 매핑 안된 엔티티를 join 하는법 
 
@@ -648,7 +658,7 @@ QTestBoardEntity board = new QTestBoardEntity("q1");
 ```
 
 # 정말입이 딱벌어집니다 
-솔직히 너무힘들었습니다. 새벽 4시까지 삽질하고 삽질하고.. 검색도 해보고 .. 뭔 인도인이 하이버네이트 설명하는 유튜브 영상도 보고 .. 하나도 안들리는 콩글리시 인도인 영어 주먹물고 오열하면서 보면서.. 따라해보고 그랬지만 결국은 의존성주입을 잘못해줬기때문에 일어난 대참사라고 생각합니다. 
+솔직히 너무힘들었습니다. 새벽 4시까지 삽질하고 삽질하고.. 검색도 해보고 .. 뭔 인도인이 하이버네이트 설명하는 유튜브 영상도 보고 .. 하나도 안들리는 콩글리시 인도인 영어 주먹물고 오열하면서 보면서.. 따라해보고 그랬지만 결국은 의존성주입을 잘못해줬기때문에 일어난 대참사라고 생각합니다.  이걸 현업에서 쓸생각에 뒷목잡고 쓰러질것같습니다. 공부량을 늘려서라도 하이버네이트 쓰도록해야겠습니다.
 
    ![img](https://user-images.githubusercontent.com/69393030/174218501-351f840f-d070-4d9a-ab72-c219017acf9b.jpg)
 
