@@ -647,4 +647,8 @@ QTestBoardEntity board = new QTestBoardEntity("q1");
 
 ```
 
-             
+# 정말입이 딱벌어집니다 
+솔직히 너무힘들었습니다. 새벽 4시까지 삽질하고 삽질하고.. 검색도 해보고 .. 뭔 인도인이 하이버네이트 설명하는 유튜브 영상도 보고 .. 하나도 안들리는 콩글리시 인도인 영어 주먹물고 오열하면서 보면서.. 따라해보고 그랬지만 결국은 의존성주입을 잘못해줬기때문에 일어난 대참사라고 생각합니다. 
+
+    ![2gsjgna1uruvUuS7ndh9YqVwYGPLVszbFLwwpAYXZ1rkyz7vKAbhJvHdPRzCvhGfPWQdhkcqKLhnajnHFpGdgkDq3R1XmTFaFxUfKbVyyA3iDi1Fzv](https://user-images.githubusercontent.com/69393030/174218318-dc0a1794-6cf7-47ba-92d8-06ec915826b2.png)
+         
