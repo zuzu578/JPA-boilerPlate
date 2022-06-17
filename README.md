@@ -576,7 +576,7 @@ querydsl 사용 방법은 다음과같다.
 # vs code 에서 qclass 생성안되는경우
 확장프로그램에서 
 test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 이거때매 멘탈 갈렸다 
-# queryDsl 사용 
+# queryDsl 사용 (JpaQuery임 쿼리팩토리아님) 
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
