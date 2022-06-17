@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardEntity;
-import com.jpa.boilerplate.jpaboilerplate.entity.Board.QBoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.QTestBoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.QTestBoardFileEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardEntity;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.jpa.impl.JPAQueryFactory;
+import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardFileEntity;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @RestController
 @RequestMapping("/test")
@@ -28,33 +29,23 @@ public class QueryDslTestController {
 
     @GetMapping("/test")
     public ResponseEntity<?> test() {
-        JPAQuery query = new JPAQuery(entityManager);
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
-        QTestBoardEntity board = QTestBoardEntity.testBoardEntity;
-
-        QTestBoardFileEntity file = QTestBoardFileEntity.testBoardFileEntity;
-
-        String testParameter = "주환";
-
-        // select * from board b1 left join file f1 on b1.fileNo = f1.fileNo
-        List<?> result = query
+        List<Tuple> result = queryFactory
+                .select(board, file)
                 .from(board)
-                // .where(board.userName.like(testParameter))
-                .leftJoin(file).on(file.fileNo.eq(board.fileNo))
-                // .orderBy(board.createdTime.asc())
-                // .offset(0)
-                // .limit(10)
-                .list(board);
+                .join(file)
+                .on(board.fileNo.eq(file.fileNo))
+                .fetch();
 
-        // QBoardEntity qBoard = new QBoardEntity("m"); // 생성되는 JPQL의 별칭이 m
-        // List<BoardEntity> result = query
-        // .from(qBoard)
-        // .where(qBoard.title.like("수정함"))
-        // .orderBy(qBoard.createdTime.desc())
-        // .offset(0)
-        // .limit(10)
-        // .list(qBoard);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        for (Tuple tuple : result) {
+            System.out.println("test!!!====>" + tuple.get(board).getBoardNo());
+            System.out.println("test =====>" + tuple.get(file).getFileName());
+        }
+        return new ResponseEntity<>(
+                "",
+                HttpStatus.OK);
     }
 }

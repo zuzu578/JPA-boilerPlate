@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * taiko_board = test board entity
@@ -38,6 +39,17 @@ public class TestBoardEntity {
 
     @Column(name = "password")
     private String password;
+
+    @Transient
+    private TestBoardFileEntity testBoardFileEntity;
+
+    public TestBoardFileEntity getTestBoardFileEntity() {
+        return testBoardFileEntity;
+    }
+
+    public void setTestBoardFileEntity(TestBoardFileEntity testBoardFileEntity) {
+        this.testBoardFileEntity = testBoardFileEntity;
+    }
 
     public int getBoardNo() {
         return boardNo;
