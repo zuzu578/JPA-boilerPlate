@@ -48,4 +48,23 @@ public class QueryDslTestController {
                 "",
                 HttpStatus.OK);
     }
+
+    @GetMapping("/test2")
+    public ResponseEntity<?> test2() {
+
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        return new ResponseEntity<>(
+                queryFactory
+                        .select(board)
+                        .from(board)
+                        .where(board.userName.eq("주환"))
+                        .orderBy(board.createdTime.asc())
+                        .offset(0)
+                        .limit(10)
+                        .fetch(),
+                HttpStatus.OK);
+    }
 }
