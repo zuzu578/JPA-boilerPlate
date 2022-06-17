@@ -662,3 +662,17 @@ QTestBoardEntity board = new QTestBoardEntity("q1");
 
    ![img](https://user-images.githubusercontent.com/69393030/174218501-351f840f-d070-4d9a-ab72-c219017acf9b.jpg)
 
+
+
+# 참고 문헌 
+
+https://ultrakain.gitbooks.io/jpa/content/chapter10/chapter10.4.html : queryDsl 사용법 핸드북인듯하다
+
+
+https://www.youtube.com/watch?v=3HzIvCF7miQ : youtube 에서  querydsl 에대한 사용법을 영상으로 찍은것인듯하다.
+
+
+http://querydsl.com/index.html : queryDsl 공식사이트다 신뢰도가 제일높다 
+
+
+
