@@ -108,7 +108,7 @@ public class QueryDslTestController {
 
         JSONObject obj = new JSONObject();
         List<Tuple> result = queryFactory
-                .select(board.contents, board.userName, file.fileName, file.filePath)
+                .select(board, file)
                 .from(board)
                 .leftJoin(file)
                 .on(board.fileNo.eq(file.fileNo))
@@ -119,8 +119,25 @@ public class QueryDslTestController {
                                 .where(board.boardNo.eq(290))))
                 .fetch();
 
-        result.forEach(item -> obj.put("data", item.toArray()));
+        JSONObject res = null;
+        JSONArray arr = new JSONArray();
+        JSONObject resultData = null;
 
-        return new ResponseEntity<>(obj, HttpStatus.OK);
+        for (Tuple tuple : result) {
+            res = new JSONObject();
+            resultData = new JSONObject();
+            resultData.put("contents", tuple.get(board).getContents());
+            resultData.put("userName", tuple.get(board).getUserName());
+            resultData.put("profile", tuple.get(board).getUserProfile());
+            resultData.put("filePath", tuple.get(file).getFilePath());
+            resultData.put("fileName", tuple.get(file).getFileName());
+
+            res.put("data", resultData);
+            arr.add(res);
+        }
+
+        // result.forEach(item -> obj.put("data", item.toArray()));
+
+        return new ResponseEntity<>(arr, HttpStatus.OK);
     }
 }
