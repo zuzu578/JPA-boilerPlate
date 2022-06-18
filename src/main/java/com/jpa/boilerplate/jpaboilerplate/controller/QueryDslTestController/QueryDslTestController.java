@@ -20,6 +20,7 @@ import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardFileEntity;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @RestController
@@ -86,5 +87,40 @@ public class QueryDslTestController {
                         .limit(10)
                         .fetch(),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/test3")
+    public ResponseEntity<?> test3() {
+
+        /**
+         * select *
+         * from sys.taiko_board t1
+         * left join sys.taiko_board_file t2
+         * on t1.file_no = t2.file_no
+         * 
+         * where t1.board_no = (select board_no from sys.taiko_board where board_no =
+         * '290')
+         * 
+         */
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        JSONObject obj = new JSONObject();
+        List<Tuple> result = queryFactory
+                .select(board.contents, board.userName, file.fileName, file.filePath)
+                .from(board)
+                .leftJoin(file)
+                .on(board.fileNo.eq(file.fileNo))
+                .where(board.boardNo
+                        .in(JPAExpressions
+                                .select(board.boardNo)
+                                .from(board)
+                                .where(board.boardNo.eq(290))))
+                .fetch();
+
+        result.forEach(item -> obj.put("data", item.toArray()));
+
+        return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 }
