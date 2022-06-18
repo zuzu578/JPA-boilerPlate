@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,18 +44,28 @@ public class QueryDslTestController {
 
         JSONArray arr = new JSONArray();
         JSONObject obj = null;
+        JSONObject res = new JSONObject();
+        JSONObject file2 = null;
+        JSONObject board2 = null;
 
         for (Tuple tuple : result) {
-            obj = new JSONObject();
-            obj.put("board", tuple.get(board));
-            obj.put("file", tuple.get(file));
 
-            System.out.println("test!!!====>" + tuple.get(board));
-            System.out.println("test =====>" + tuple.get(file));
-            arr.put(obj);
+            obj = new JSONObject();
+            file2 = new JSONObject();
+            board2 = new JSONObject();
+            board2.put("contents", tuple.get(board).getContents());
+            board2.put("userName", tuple.get(board).getUserName());
+            file2.put("fileName", tuple.get(file).getFileName());
+            file2.put("filePath", tuple.get(file).getFilePath());
+            obj.put("file", file2);
+            obj.put("board", board2);
+
+            arr.add(obj);
+
         }
+        res.put("data", arr);
         return new ResponseEntity<>(
-                arr,
+                res,
                 HttpStatus.OK);
     }
 
