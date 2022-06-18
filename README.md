@@ -660,6 +660,54 @@ QTestBoardEntity board = new QTestBoardEntity("q1");
 
 ```
 
+# subquery 사용 
+
+queryDsl 에서 서브쿼리 사용할때 JPAExpressions 를 사용하여 서브쿼리를 작성할수있따.
+
+```java
+
+ @GetMapping("/test3")
+    public ResponseEntity<?> test3() {
+
+        /**
+         * select *
+         * from sys.taiko_board t1
+         * left join sys.taiko_board_file t2
+         * on t1.file_no = t2.file_no
+         * 
+         * where t1.board_no = (select board_no from sys.taiko_board where board_no =
+         * '290')
+         * 
+         */
+        QTestBoardEntity board = new QTestBoardEntity("q1");
+        QTestBoardFileEntity file = new QTestBoardFileEntity("q2");
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        JSONObject obj = new JSONObject();
+        List<Tuple> result = queryFactory
+                .select(board.contents, board.userName, file.fileName, file.filePath)
+                .from(board)
+                .leftJoin(file)
+                .on(board.fileNo.eq(file.fileNo))
+                .where(board.boardNo
+                        .in(JPAExpressions
+                                .select(board.boardNo)
+                                .from(board)
+                                .where(board.boardNo.eq(290))))
+                .fetch();
+
+        result.forEach(item -> obj.put("data", item.toArray()));
+
+        return new ResponseEntity<>(obj, HttpStatus.OK);
+    }
+}
+
+
+
+
+
+```
+
 # 정말입이 딱벌어집니다 
 솔직히 너무힘들었습니다. 새벽 4시까지 삽질하고 삽질하고.. 검색도 해보고 .. 뭔 인도인이 하이버네이트 설명하는 유튜브 영상도 보고 .. 하나도 안들리는 콩글리시 인도인 영어 주먹물고 오열하면서 보면서.. 따라해보고 그랬지만 결국은 의존성주입을 잘못해줬기때문에 일어난 대참사라고 생각합니다.  이걸 현업에서 쓸생각에 뒷목잡고 쓰러질것같습니다. 공부량을 늘려서라도 하이버네이트 쓰도록해야겠습니다.
 
