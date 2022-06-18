@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,16 +38,24 @@ public class QueryDslTestController {
         List<Tuple> result = queryFactory
                 .select(board, file)
                 .from(board)
-                .join(file)
+                .leftJoin(file)
                 .on(board.fileNo.eq(file.fileNo))
                 .fetch();
 
+        JSONArray arr = new JSONArray();
+        JSONObject obj = null;
+
         for (Tuple tuple : result) {
-            System.out.println("test!!!====>" + tuple.get(board).getBoardNo());
-            System.out.println("test =====>" + tuple.get(file).getFileName());
+            obj = new JSONObject();
+            obj.put("board", tuple.get(board));
+            obj.put("file", tuple.get(file));
+
+            System.out.println("test!!!====>" + tuple.get(board));
+            System.out.println("test =====>" + tuple.get(file));
+            arr.put(obj);
         }
         return new ResponseEntity<>(
-                "",
+                arr,
                 HttpStatus.OK);
     }
 
