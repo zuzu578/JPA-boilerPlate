@@ -10,6 +10,33 @@
 # 필자는 하이버네이트 , jpa 세팅하다가 머리털이 몇개 빠진것같습니다.
 <img width="741" alt="스크린샷 2022-06-16 오후 11 59 20" src="https://user-images.githubusercontent.com/69393030/174099506-1c72c072-b3eb-4052-914d-6a07e1909e0b.png">
 
+# 속보 속보 속보 
+
+메이븐 컴파일이 안될때 
+
+    java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException 
+    
+    이런 오류 나서 
+
+``` xml
+<!-- JAXB API only -->
+  <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>3.0.0</version>
+  </dependency>
+
+  <!-- JAXB RI, Jakarta XML Binding -->
+  <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>3.0.0</version>
+      <scope>runtime</scope>
+  </dependency>
+
+
+```
+ 해주니 됌 
  
 # spring legacy 에서 hibernate , jpa 를 사용할 경우 환경설정 
 <img width="741" alt="스크린샷 2022-06-17 오전 12 00 29" src="https://user-images.githubusercontent.com/69393030/174099775-0fd4a3e2-65e3-45fb-be69-1e39f8305ce1.png">
