@@ -603,6 +603,25 @@ querydsl 사용 방법은 다음과같다.
 # vs code 에서 qclass 생성안되는경우
 확장프로그램에서 
 test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 이거때매 멘탈 갈렸다 
+
+간혹 vscode 에서 
+
+```
+.vscode folder in .java is not on the classpath of project
+
+```
+
+이런 오류가 뜨는경우 pom.xml 우클릭하고, maven 업데이트 해준다.
+
+그러면 저 경고가 사라지고 Qclass 를 임포트 해줄수있다.
+
+<img width="936" alt="스크린샷 2022-06-21 오후 11 13 12" src="https://user-images.githubusercontent.com/69393030/174821245-d878c9d5-5202-4f37-b242-a0b7b444f372.png">
+
+
+위와같이 q class 들을 참조할수있다. 
+
+그래도 안되면 , pom에 명시되어있는 java version 과 , 현재 프로젝트 버젼을 확인해본다.
+
 # queryDsl 사용 (JpaQuery임 쿼리팩토리아님) 
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
