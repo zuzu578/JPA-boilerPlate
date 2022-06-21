@@ -607,6 +607,7 @@ test runner for java , debug for java  버전을 낮추거나 , 사용안함으�
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
+참고문헌:https://www.inflearn.com/questions/35226
 
 
 # queryFactory 를 사용하여 querydsl 사용하기 
