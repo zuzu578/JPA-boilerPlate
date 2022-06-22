@@ -580,6 +580,9 @@ passwordEncoder.matches(password, userEntity.getPassword()
 ```
 이 api 를 사용하여 일치하는지 여부를 판별해주면된다.
 
+
+참고 : https://groups.google.com/g/ksug/c/1W11JJ6AZxc
+
 # queryDsl 방식을 사용하기 
 <img width="769" alt="스크린샷 2022-06-17 오전 12 05 24" src="https://user-images.githubusercontent.com/69393030/174100782-16038f20-d505-45fc-b4c6-b5de3bc4d837.png">
 
