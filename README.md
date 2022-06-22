@@ -529,7 +529,56 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 ```
 끝 
 
+# criteria 에서 로그인 로직 
 
+``` java
+@Service("loginService")
+public class LoginService {
+	
+	@PersistenceContext
+	EntityManager entityManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	AdminUserVO userEntity;
+
+	public AdminUserVO doLogin(String mberId , String password) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AdminUserVO> criteriaQuery = criteriaBuilder.createQuery(AdminUserVO.class);
+   	 	Root<AdminUserVO> root = criteriaQuery.from(AdminUserVO.class);
+   	 	TypedQuery<AdminUserVO> user = null;
+   	 	
+   	 	Predicate passwordCondition = null ;
+	
+   	 	passwordCondition = criteriaBuilder.equal(root.get("mberId"),mberId);  
+		String encodingPassword = passwordEncoder.encode(password);
+		criteriaQuery.where(passwordCondition);
+		try {			
+			userEntity = entityManager.createQuery(criteriaQuery).getSingleResult();
+			boolean isMatchedPassword = passwordEncoder.matches(password, userEntity.getPassword());
+			System.out.println("is matched password ? " + isMatchedPassword);
+		}catch(Exception e) {
+			return null;
+		}
+		return userEntity;
+	}
+}
+
+
+
+```
+
+이거 특이하게도 passwordEncoder 를 쓰면 password 가 항상 다른 값을 암호화하게되는데 
+
+그냥 디비에서 userId 로 조회한후 , 평문비밀번호와 조회하여 가져온 암호화된 password 를 
+
+
+```java
+passwordEncoder.matches(password, userEntity.getPassword()
+```
+이 api 를 사용하여 일치하는지 여부를 판별해주면된다.
 
 # queryDsl 방식을 사용하기 
 <img width="769" alt="스크린샷 2022-06-17 오전 12 05 24" src="https://user-images.githubusercontent.com/69393030/174100782-16038f20-d505-45fc-b4c6-b5de3bc4d837.png">
