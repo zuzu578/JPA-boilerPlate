@@ -33,20 +33,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/main")
 public class MainController {
 
-    private MainService mainService;
-
-    @Autowired
-    public MainController(MainService mainService) {
-        this.mainService = mainService;
-    }
-
-    @Autowired
-    BoardRepository board;
-    @Autowired
-    BoardCommentRepository boardComment;
+    private MainService boardService;
+    private BoardRepository board;
+    private BoardCommentRepository boardComment;
 
     Optional<BoardEntity> boardEntity;
     Optional<BoardCommentEntity> boardCommentEntity;
+
+    @Autowired
+    public MainController(MainService boardService, BoardRepository board, BoardCommentRepository boardComment) {
+        this.boardService = boardService;
+        this.board = board;
+        this.boardComment = boardComment;
+    }
 
     /**
      * 게시글 작성 api
@@ -109,9 +108,16 @@ public class MainController {
         if (pageNum == "" || pageNum == null) {
             pageNum = "0";
         }
+        // 기존코드
+        // Pageable result = PageRequest.of(Integer.parseInt(pageNum), 10,
+        // Sort.by("createdTime").descending());
+        // return new ResponseEntity<>(board.findBydeleteTimeNull(result),
+        // HttpStatus.OK);
 
-        Pageable result = PageRequest.of(Integer.parseInt(pageNum), 10, Sort.by("createdTime").descending());
-        return new ResponseEntity<>(board.findBydeleteTimeNull(result), HttpStatus.OK);
+        // 마이그레이션 queryDsl
+
+        return new ResponseEntity<>(boardService.getBoardList(pageNum), HttpStatus.OK);
+
     }
 
     /**
