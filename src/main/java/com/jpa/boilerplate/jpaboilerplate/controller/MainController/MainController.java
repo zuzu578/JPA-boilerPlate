@@ -10,6 +10,7 @@ import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardCommentEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.Board.BoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardCommentRepository;
 import com.jpa.boilerplate.jpaboilerplate.repository.Board.BoardRepository;
+import com.jpa.boilerplate.jpaboilerplate.service.MainService.MainService;
 import com.jpa.boilerplate.jpaboilerplate.utils.MessageUtils.BoardCommentNullCheckMessage;
 import com.jpa.boilerplate.jpaboilerplate.utils.MessageUtils.BoardNullCheckMessage;
 
@@ -31,6 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/main")
 public class MainController {
+
+    private MainService mainService;
+
+    @Autowired
+    public MainController(MainService mainService) {
+        this.mainService = mainService;
+    }
 
     @Autowired
     BoardRepository board;

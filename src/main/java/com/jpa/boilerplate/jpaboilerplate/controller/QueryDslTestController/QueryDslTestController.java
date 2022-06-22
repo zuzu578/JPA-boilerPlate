@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.QTestBoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.QTestBoardFileEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardEntity;
 import com.jpa.boilerplate.jpaboilerplate.entity.TestEntity.TestBoardFileEntity;
+import com.jpa.boilerplate.jpaboilerplate.service.TestService.TestService;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -29,6 +31,16 @@ public class QueryDslTestController {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    TestService testService;
+
+    @GetMapping("/testService")
+    public ResponseEntity<?> test5() {
+
+        return new ResponseEntity<>(testService.getTestData(), HttpStatus.OK);
+
+    }
 
     @GetMapping("/test")
     public ResponseEntity<?> test() {
