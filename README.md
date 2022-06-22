@@ -10,6 +10,33 @@
 # 필자는 하이버네이트 , jpa 세팅하다가 머리털이 몇개 빠진것같습니다.
 <img width="741" alt="스크린샷 2022-06-16 오후 11 59 20" src="https://user-images.githubusercontent.com/69393030/174099506-1c72c072-b3eb-4052-914d-6a07e1909e0b.png">
 
+# 속보 속보 속보 
+
+메이븐 컴파일이 안될때 
+
+    java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException 
+    
+    이런 오류 나서 
+
+``` xml
+<!-- JAXB API only -->
+  <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>3.0.0</version>
+  </dependency>
+
+  <!-- JAXB RI, Jakarta XML Binding -->
+  <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>3.0.0</version>
+      <scope>runtime</scope>
+  </dependency>
+
+
+```
+ 해주니 됌 
  
 # spring legacy 에서 hibernate , jpa 를 사용할 경우 환경설정 
 <img width="741" alt="스크린샷 2022-06-17 오전 12 00 29" src="https://user-images.githubusercontent.com/69393030/174099775-0fd4a3e2-65e3-45fb-be69-1e39f8305ce1.png">
@@ -502,7 +529,59 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 ```
 끝 
 
+# criteria 에서 로그인 로직 
 
+``` java
+@Service("loginService")
+public class LoginService {
+	
+	@PersistenceContext
+	EntityManager entityManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	AdminUserVO userEntity;
+
+	public AdminUserVO doLogin(String mberId , String password) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AdminUserVO> criteriaQuery = criteriaBuilder.createQuery(AdminUserVO.class);
+   	 	Root<AdminUserVO> root = criteriaQuery.from(AdminUserVO.class);
+   	 	TypedQuery<AdminUserVO> user = null;
+   	 	
+   	 	Predicate passwordCondition = null ;
+	
+   	 	passwordCondition = criteriaBuilder.equal(root.get("mberId"),mberId);  
+		String encodingPassword = passwordEncoder.encode(password);
+		criteriaQuery.where(passwordCondition);
+		try {			
+			userEntity = entityManager.createQuery(criteriaQuery).getSingleResult();
+			boolean isMatchedPassword = passwordEncoder.matches(password, userEntity.getPassword());
+			System.out.println("is matched password ? " + isMatchedPassword);
+		}catch(Exception e) {
+			return null;
+		}
+		return userEntity;
+	}
+}
+
+
+
+```
+
+이거 특이하게도 passwordEncoder 를 쓰면 password 가 항상 다른 값을 암호화하게되는데 
+
+그냥 디비에서 userId 로 조회한후 , 평문비밀번호와 조회하여 가져온 암호화된 password 를 
+
+
+```java
+passwordEncoder.matches(password, userEntity.getPassword()
+```
+이 api 를 사용하여 일치하는지 여부를 판별해주면된다.
+
+
+참고 : https://groups.google.com/g/ksug/c/1W11JJ6AZxc
 
 # queryDsl 방식을 사용하기 
 <img width="769" alt="스크린샷 2022-06-17 오전 12 05 24" src="https://user-images.githubusercontent.com/69393030/174100782-16038f20-d505-45fc-b4c6-b5de3bc4d837.png">
@@ -576,10 +655,30 @@ querydsl 사용 방법은 다음과같다.
 # vs code 에서 qclass 생성안되는경우
 확장프로그램에서 
 test runner for java , debug for java  버전을 낮추거나 , 사용안함으로 하셈 이거때매 멘탈 갈렸다 
+
+간혹 vscode 에서 
+
+```
+.vscode folder in .java is not on the classpath of project
+
+```
+
+이런 오류가 뜨는경우 pom.xml 우클릭하고, maven 업데이트 해준다.
+
+그러면 저 경고가 사라지고 Qclass 를 임포트 해줄수있다.
+
+<img width="936" alt="스크린샷 2022-06-21 오후 11 13 12" src="https://user-images.githubusercontent.com/69393030/174821245-d878c9d5-5202-4f37-b242-a0b7b444f372.png">
+
+
+위와같이 q class 들을 참조할수있다. 
+
+그래도 안되면 , pom에 명시되어있는 java version 과 , 현재 프로젝트 버젼을 확인해본다.
+
 # queryDsl 사용 (JpaQuery임 쿼리팩토리아님) 
 
 <img width="814" alt="스크린샷 2022-06-16 오전 11 35 09" src="https://user-images.githubusercontent.com/69393030/173978947-190afc2c-11ac-41fa-b72f-f30f9b0b65d2.png">
 
+참고문헌:https://www.inflearn.com/questions/35226
 
 
 # queryFactory 를 사용하여 querydsl 사용하기 
