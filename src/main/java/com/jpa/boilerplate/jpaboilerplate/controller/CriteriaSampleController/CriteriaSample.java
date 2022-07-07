@@ -43,7 +43,13 @@ public class CriteriaSample {
         try {
             // where clause
             Predicate conditions = criteriaBuilder.equal(boardComment.get("commentNo"), 4);
-            criteria.multiselect(board, boardComment).where(conditions);
+            // criteria.multiselect(board, boardComment).where(conditions);
+            // tuples = entityManager.createQuery(criteria).getResultList();
+            criteria.multiselect(board, boardComment)
+                    .where(conditions)
+                    .from(BoardEntity.class)
+                    .join("boardComment", JoinType.LEFT);
+
             tuples = entityManager.createQuery(criteria).getResultList();
             // todo : tuple 에서 목록 꺼내서 ListHashMap으로 변환 + 조건에 맞게 filter
             for (Tuple tuple : tuples) {
