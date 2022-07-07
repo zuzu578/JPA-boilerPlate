@@ -529,6 +529,34 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 ```
 끝 
 
+
+# criteria 에서  entity 간의 관계를 맺고 조인하는법 ( metamodel 생성안하고 조인 ) 
+```java
+	public List<Tuple> getAuthList() {
+		List<Tuple> tuples = new ArrayList<Tuple>();
+		List<ComtnroleInfoVO> result = new ArrayList<ComtnroleInfoVO>();
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		
+		CriteriaQuery<Tuple> criteria = criteriaBuilder.createTupleQuery();
+		Root<ComtnroleInfoVO> root = criteria.from(ComtnroleInfoVO.class);
+		Join<ComtnroleInfoVO, ComtauthorroleateVO> joinColumns = root.join("comtauthorroleateVO", JoinType.INNER);
+
+   	 	try {
+   	 		criteria.multiselect(root,joinColumns);
+   	 		tuples = entityManager.createQuery(criteria).getResultList();
+   	 		// todo : tuple 에서 목록 꺼내서 ListHashMap으로 변환 + 조건에 맞게 filter 
+	   	 	for (Tuple tuple : tuples) {
+	   	 		System.out.println("test ===>" + tuple.get(joinColumns).getAuthorCode());
+	   		
+	   	 	}
+
+   	 	}catch(Exception e) {
+   	 		e.printStackTrace();
+   	 	}
+   	 	return tuples ; 
+	}
+
+```
 # criteria 에서 로그인 로직 
 
 ``` java
