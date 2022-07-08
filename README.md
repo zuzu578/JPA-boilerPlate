@@ -531,29 +531,41 @@ TypedQuery<AdminUserVO> boardListQuery = entityManager.createQuery(criteriaQuery
 
 
 # criteria 에서  entity 간의 관계를 맺고 조인하는법 ( metamodel 생성안하고 조인 ) 
-```java
-	public List<Tuple> getAuthList() {
-		List<Tuple> tuples = new ArrayList<Tuple>();
-		List<ComtnroleInfoVO> result = new ArrayList<ComtnroleInfoVO>();
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+```javapublic List<HashMap<String,Object>> getAuthList(String Auth) {
 		
-		CriteriaQuery<Tuple> criteria = criteriaBuilder.createTupleQuery();
-		Root<ComtnroleInfoVO> root = criteria.from(ComtnroleInfoVO.class);
-		Join<ComtnroleInfoVO, ComtauthorroleateVO> joinColumns = root.join("comtauthorroleateVO", JoinType.INNER);
+		  List<Tuple> tuples = new ArrayList<Tuple>();
+		  CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		  List<HashMap<String, Object>> resultArr = new ArrayList<HashMap<String, Object>>();
+		  HashMap<String , Object> tupleResultMap = null;
+	        
+		  CriteriaQuery<Tuple> criteria = criteriaBuilder.createTupleQuery();  
+		  Root<ComtnroleInfoVO> comtnroleInfo = criteria.from(ComtnroleInfoVO.class);
+	        //Root<ComtauthorroleateVO> comtauthorroleate = criteria.from(ComtauthorroleateVO.class);
 
    	 	try {
-   	 		criteria.multiselect(root,joinColumns);
-   	 		tuples = entityManager.createQuery(criteria).getResultList();
-   	 		// todo : tuple 에서 목록 꺼내서 ListHashMap으로 변환 + 조건에 맞게 filter 
+   	 		// join
+   	 		Join<ComtnroleInfoVO, ComtauthorroleateVO> comtauthorroleate = comtnroleInfo.join("comtauthorroleateVO", JoinType.LEFT);
+   	 		Predicate conditions = criteriaBuilder.equal(comtauthorroleate.get("authorCode"), Auth);
+	        criteria.multiselect(comtnroleInfo, comtauthorroleate)
+	        .where(conditions);
+	        tuples = entityManager.createQuery(criteria).getResultList();
+	        
 	   	 	for (Tuple tuple : tuples) {
-	   	 		System.out.println("test ===>" + tuple.get(joinColumns).getAuthorCode());
-	   		
+	   	 		tupleResultMap = new HashMap<String , Object>();
+	   	 		tupleResultMap.put("roleCode", tuple.get(comtnroleInfo).getRoleCode());
+	   	 		tupleResultMap.put("roleCreateDe", tuple.get(comtnroleInfo).getRoleCreatDe());
+	   	 		tupleResultMap.put("roleDc", tuple.get(comtnroleInfo).getRoleDc());
+	   	 		tupleResultMap.put("roleNm", tuple.get(comtnroleInfo).getRoleNm());
+	   	 		tupleResultMap.put("rolePttrn", tuple.get(comtnroleInfo).getRolePttrn());
+	   	 		tupleResultMap.put("roleSort", tuple.get(comtnroleInfo).getRoleSort());
+	   	 		tupleResultMap.put("authorCode", tuple.get(comtauthorroleate).getAuthorCode());
+	   	 		
+	   	 		resultArr.add(tupleResultMap);
 	   	 	}
-
    	 	}catch(Exception e) {
    	 		e.printStackTrace();
    	 	}
-   	 	return tuples ; 
+   	 	return resultArr ; 
 	}
 
 ```
