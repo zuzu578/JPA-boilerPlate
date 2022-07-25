@@ -3,6 +3,10 @@
 
 @DynamicUpdate 를 명시하지않을경우 예를들어 userId 를 수정하면 전체 컬럼이 수정되는 상황이 발생하나 , @DynamicUpdate 를 명시하게된다면 userId 만 수정하게 할수있다.
 
+# ** updatable=false 
+updatable=false 설정을 통해 업데이트 를 하지못하게 해당 엔티티의 컬럼에 설정을 할수있다.
+
+
 # JPA-boilerPlate
 
 <img width="764" alt="스크린샷 2022-06-16 오후 11 53 48" src="https://user-images.githubusercontent.com/69393030/174098234-11415393-9f1d-4d89-a884-1f5a340163a7.png">
