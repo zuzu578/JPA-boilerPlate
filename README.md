@@ -1,3 +1,8 @@
+# ** @DynamicUpdate
+@DynamicUpdate 는 수정하려는 컬럼만 수정하도록 entity 에 설정해두면 된다. 이는 어노테이션으로 명시해주게되면 수정하려는 컬럼만 수정하여 persist 할수있다.
+
+@DynamicUpdate 를 명시하지않을경우 예를들어 userId 를 수정하면 전체 컬럼이 수정되는 상황이 발생하나 , @DynamicUpdate 를 명시하게된다면 userId 만 수정하게 할수있다.
+
 # JPA-boilerPlate
 
 <img width="764" alt="스크린샷 2022-06-16 오후 11 53 48" src="https://user-images.githubusercontent.com/69393030/174098234-11415393-9f1d-4d89-a884-1f5a340163a7.png">
@@ -37,6 +42,8 @@
 
 ```
  해주니 됌 
+ 
+
  
 # spring legacy 에서 hibernate , jpa 를 사용할 경우 환경설정 
 <img width="741" alt="스크린샷 2022-06-17 오전 12 00 29" src="https://user-images.githubusercontent.com/69393030/174099775-0fd4a3e2-65e3-45fb-be69-1e39f8305ce1.png">
