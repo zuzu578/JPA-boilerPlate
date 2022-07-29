@@ -1,3 +1,47 @@
+# left join on 절에 and 추가하기 
+
+간혹 left join on 에 and 를 추가하는 쿼리가있다 예를들어 
+```sql
+ select
+            comtnrolei0_.role_code as role_cod1_6_0_,
+            comtauthor1_.role_code as role_cod1_1_1_,
+            comtnrolei0_.role_creat_de as role_cre2_6_0_,
+            comtnrolei0_.role_dc as role_dc3_6_0_,
+            comtnrolei0_.role_nm as role_nm4_6_0_,
+            comtnrolei0_.role_pttrn as role_ptt5_6_0_,
+            comtnrolei0_.role_sort as role_sor6_6_0_,
+            comtnrolei0_.role_ty as role_ty7_6_0_,
+            comtauthor1_.author_code as author_c2_1_1_,
+            comtauthor1_.creat_dt as creat_dt3_1_1_ 
+        from
+            comtnroleInfo comtnrolei0_ 
+        left outer join
+            comtnauthorrolerelate comtauthor1_ 
+                on comtnrolei0_.role_code=comtauthor1_.role_code 
+                and (
+                    comtauthor1_.author_code=?
+                ) 
+        where
+            1=1 
+        order by
+            comtnrolei0_.role_creat_de desc limit ?
+
+
+```
+이런식으로...
+이럴땐 oneToMany 로 조인 관계를 설정한뒤 (Set<VO> 이렇게하고)
+```java
+// join 
+			Root<ComtnroleInfoVO> comtnroleInfo = criteria.from(ComtnroleInfoVO.class);
+			Join<ComtnroleInfoVO, ComtnauthorrolerelateVO> comtauthorroleate = comtnroleInfo.join("comtauthorroleateVO", JoinType.LEFT);
+			comtauthorroleate.on(
+					criteriaBuilder.and(
+							criteriaBuilder.equal(comtauthorroleate.get("authorCode"), authorCode)
+							)
+					);
+
+```
+이렇게 한다.
 # ** @DynamicUpdate
 @DynamicUpdate 는 수정하려는 컬럼만 수정하도록 entity 에 설정해두면 된다. 이는 어노테이션으로 명시해주게되면 수정하려는 컬럼만 수정하여 persist 할수있다.
 
