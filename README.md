@@ -1,3 +1,125 @@
+# id column 끼리 join 하지 않고 , fk 끼리 조인할경우
+serialize 를 구현한다.
+```java
+package egovframework.system.user.service;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.DynamicUpdate;
+
+import egovframework.system.manage.service.ComtnemplyrscrtyestbsT;
+import lombok.Data;
+
+@Entity
+@Table(name = "comtngnrlmber")
+@DynamicUpdate
+@Data
+public class SystemAdminUserVO implements Serializable {
+	
+	@Id
+	@Column(name = "mber_id", updatable=false)
+	private String mberId;
+	
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "password_hint")
+	private String passwordHint;
+	
+	@Column(name = "password_cnsr")
+	private String passwordCnsr;
+	
+	@Column(name = "ihidnum")
+	private String ihidnum;
+	
+	@Column(name = "mber_nm")
+	private String mberNm;
+	
+	@Column(name = "zip")
+	private String zip;
+	
+	@Column(name = "adres")
+	private String adres;
+	
+	@Column(name = "area_no")
+	private String areaNo;
+	
+	@Column(name = "mber_sttus")
+	private String mberSttus;
+	
+	@Column(name = "detail_adres")
+	private String detailAdres;
+	
+	@Column(name = "end_telno")
+	private String endTelno;
+	
+	@Column(name = "mbtlnum")
+	private String mbtlnum;
+	
+	@Column(name = "group_id")
+	private String groupId;
+	
+	@Column(name = "mber_fxnum")
+	private String mberFxnum;
+	
+	@Column(name = "mber_email_adres")
+	private String mberEmailAdres;
+	
+	@Column(name = "middle_telno")
+	private String middleTelno;
+	
+	@Column(name = "sbscrb_de", updatable=false)
+	private String sbscrbDe;
+	
+	@Column(name = "sexdstn_code")
+	private String sexdstnCode;
+	
+	@Column(name = "esntl_id")
+	private String esntlId;
+	
+	@Column(name = "lock_at")
+	private String lockAt;
+	
+	@Column(name = "lock_cnt")
+	private String lockCnt;
+	
+	@Column(name = "lock_last_pnttm")
+	private String lockLastPnttm;
+	
+	@Column(name = "chg_pwd_last_pnttm")
+	private String chgPwdLastPnttm;
+	
+	@Column(name = "usergrade")
+	private String usergrade;
+	
+	@Column(name = "del_yn")
+	private String delYn;
+	
+	@Transient
+	private String passwordComfirm;
+
+	@OneToMany
+	@JoinColumn(name = "scrty_dtrmn_trget_id", referencedColumnName="esntl_id",insertable = false, updatable = false)
+	private Set<ComtnemplyrscrtyestbsT> comtnemplyrscrtyestbsT;
+	
+	
+}
+
+
+```
+
 # left join on 절에 and 추가하기 
 
 간혹 left join on 에 and 를 추가하는 쿼리가있다 예를들어 
