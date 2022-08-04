@@ -1,3 +1,12 @@
+# Integer property 를 like 로 검색할때 
+다음과 같이한다. 
+
+참조 : https://stackoverflow.com/questions/10230680/criteria-query-search-for-integer-using-like
+```java
+predicates.add(criteriaBuilder.like(orderRoot.get(sKey).as(String.class), "%"+""+sWords+""+"%"));		
+
+```
+
 # id column 끼리 join 하지 않고 , fk 끼리 조인할경우
 serialize 를 구현한다.
 ```java
